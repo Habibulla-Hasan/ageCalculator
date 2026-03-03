@@ -3,44 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boyosh Dekho – বয়স নির্ণায়ক</title>
+<title>বর্তমান বয়স দেখুন</title>
 
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1e3c72">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif;}
-body { min-height:100vh; display:flex; justify-content:center; align-items:flex-start; background:linear-gradient(135deg,#1e3c72,#2a5298); padding:15px;}
-.container { width:100%; max-width:400px; margin-top:30px; text-align:center; color:white; display:flex; flex-direction:column; gap:20px;}
-.install-btn { background:#ffd700; color:#2a3b70; font-weight:700; padding:12px; border:none; border-radius:10px; font-size:16px; cursor:pointer; transition:all 0.3s ease; }
-.install-btn.hide { display:none; }
-.install-btn:hover { background:#ffde59; }
-.card { background:rgba(255,255,255,0.12); backdrop-filter:blur(15px); border-radius:20px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 20px 40px rgba(0,0,0,0.3);}
-.card h2 { font-size:24px; font-weight:600; margin-bottom:10px;}
-input { width:100%; padding:12px; border:none; border-radius:10px; font-size:16px; background:rgba(255,255,255,0.1); color:white; outline:none;}
-input::placeholder { color:rgba(255,255,255,0.6);}
-button.calculate-btn { background:#ffffff; color:#2a5298; font-weight:600; border:none; border-radius:10px; padding:12px; font-size:16px; cursor:pointer; transition:all 0.3s ease; }
-button.calculate-btn:hover { background:#e0e0e0; }
-.age-box { display:none; margin-top:15px; display:flex; gap:10px; justify-content:space-between; }
-.age-item { flex:1; background:rgba(255,255,255,0.2); padding:15px 5px; border-radius:12px; opacity:0; transform:translateY(10px); transition:all 0.5s ease;}
-.age-item.show { opacity:1; transform:translateY(0);}
-.age-item h3 { font-size:20px; }
-.footer { margin-top:20px; font-size:13px; opacity:0.8; display:flex; flex-direction:column; align-items:center; gap:5px;}
-.footer img { width:30px; height:30px; border-radius:50%; }
-
-@keyframes pop { from{transform:scale(0.8); opacity:0;} to{transform:scale(1); opacity:1;} }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;background:#1e3c72; padding:15px;}
+.container{width:100%;max-width:400px;margin-top:30px;text-align:center;color:white;display:flex;flex-direction:column;gap:20px;}
+.install-btn{background:#ffd700;color:#2a3b70;font-weight:700;padding:12px;border:none;border-radius:10px;font-size:16px;cursor:pointer;transition:all 0.3s ease;}
+.install-btn.hide{display:none;}
+.install-btn:hover{background:#ffde59;}
+.card{background:linear-gradient(135deg,#1e3c72,#2a5298); border-radius:20px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 20px 40px rgba(0,0,0,0.3);}
+.card h2{font-size:24px;font-weight:600;margin-bottom:10px;}
+.card p.subtitle{opacity:0.8;margin-bottom:10px;}
+input{width:100%;padding:12px;border:none;border-radius:10px;font-size:16px;background:rgba(255,255,255,0.1);color:white;outline:none;}
+input::placeholder{color:rgba(255,255,255,0.6);}
+button.calculate-btn{background:#ffffff;color:#2a5298;font-weight:600;border:none;border-radius:10px;padding:12px;font-size:16px;cursor:pointer;transition:all 0.3s ease;}
+button.calculate-btn:hover{background:#e0e0e0;}
+.age-box{display:flex;gap:10px;justify-content:space-between; height:0; overflow:hidden; transition:height 0.3s ease;}
+.age-box.show{height:auto;}
+.age-item{flex:1;background:rgba(255,255,255,0.2);padding:15px 5px;border-radius:12px;opacity:0; transform:translateY(10px); transition:all 0.5s ease;}
+.age-item.show{opacity:1; transform:translateY(0);}
+.age-item h3{font-size:20px;}
+.footer{margin-top:20px;font-size:13px;opacity:0.8;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.footer img{width:30px;height:30px;border-radius:50%;}
 </style>
 </head>
 
 <body>
 <div class="container">
-  <!-- Install Button on Top -->
+  <!-- Install Button -->
   <button id="installBtn" class="install-btn hide">Install AgeDekho App</button>
 
   <!-- Main Card -->
   <div class="card">
-    <h2>Age Dekho</h2>
-    <p style="opacity:0.8; margin-bottom:10px;">সহজেই আপনার সঠিক বয়স জানুন</p>
+    <h2>বর্তমান বয়স দেখুন</h2>
+    <p class="subtitle">সহজেই আপনার সঠিক বয়স জানুন</p>
     <input type="date" id="dob" placeholder="আপনার জন্ম তারিখ নির্বাচন করুন">
     <button class="calculate-btn" onclick="calculateAge()">বয়স নির্ণয় করুন</button>
 
@@ -83,6 +83,10 @@ function calculateAge(){
   if(!dobValue){alert("অনুগ্রহ করে জন্ম তারিখ নির্বাচন করুন"); return;}
   const dob=new Date(dobValue);
   const today=new Date();
+
+  // Check for future date
+  if(dob > today){ alert("ভবিষ্যতের তারিখ নির্বাচন করা যাবে না"); return;}
+
   let years=today.getFullYear()-dob.getFullYear();
   let months=today.getMonth()-dob.getMonth();
   let days=today.getDate()-dob.getDate();
@@ -93,9 +97,11 @@ function calculateAge(){
   document.getElementById("months").innerText=months;
   document.getElementById("days").innerText=days;
 
-  // Animation show
+  // Show output box with animation
+  const ageBox = document.getElementById('ageBox');
+  ageBox.classList.add('show');
+
   const items = document.querySelectorAll('.age-item');
-  document.getElementById('ageBox').style.display="flex";
   items.forEach((item, i)=>{
     setTimeout(()=>{ item.classList.add('show'); }, i*150);
   });
