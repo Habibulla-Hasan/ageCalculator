@@ -3,87 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>বয়স নির্ণায়ক – AgeDekho</title>
+<title>Boyosh Dekho – বয়স নির্ণায়ক</title>
 
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1e3c72">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1e3c72,#2a5298);padding:15px;overflow:hidden;}
-.card{width:100%;max-width:400px;background:rgba(255,255,255,0.12);backdrop-filter:blur(15px);border-radius:20px;padding:30px 25px;text-align:center;color:white;box-shadow:0 20px 40px rgba(0,0,0,0.3);animation:fadeIn 1s ease;}
-h2{margin-bottom:20px;font-weight:600;}
-input{width:100%;padding:12px;border:none;border-radius:10px;margin-bottom:15px;font-size:16px;}
-button{width:100%;padding:12px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;background:white;color:#2a5298;transition:0.3s;}
-button:hover{transform:scale(1.05);}
-.age-box{display:none;margin-top:20px;display:flex;gap:10px;justify-content:space-between;}
-.age-item{flex:1;background:rgba(255,255,255,0.2);padding:15px 5px;border-radius:12px;animation:pop 0.5s ease;}
-.age-item h3{font-size:20px;}
-.footer{margin-top:20px;font-size:13px;opacity:0.8;}
-#installBtn{margin-top:10px;background:#ffd700;color:#2a3b70;font-weight:700;}
-#installBtn.hide{display:none;}
-@keyframes fadeIn{from{opacity:0; transform:translateY(20px);}to{opacity:1; transform:translateY(0);}}
-@keyframes pop{from{transform:scale(0.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif;}
+body { min-height:100vh; display:flex; justify-content:center; align-items:flex-start; background:linear-gradient(135deg,#1e3c72,#2a5298); padding:15px;}
+.container { width:100%; max-width:400px; margin-top:30px; text-align:center; color:white; display:flex; flex-direction:column; gap:20px;}
+.install-btn { background:#ffd700; color:#2a3b70; font-weight:700; padding:12px; border:none; border-radius:10px; font-size:16px; cursor:pointer; transition:all 0.3s ease; }
+.install-btn.hide { display:none; }
+.install-btn:hover { background:#ffde59; }
+.card { background:rgba(255,255,255,0.12); backdrop-filter:blur(15px); border-radius:20px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 20px 40px rgba(0,0,0,0.3);}
+.card h2 { font-size:24px; font-weight:600; margin-bottom:10px;}
+input { width:100%; padding:12px; border:none; border-radius:10px; font-size:16px; background:rgba(255,255,255,0.1); color:white; outline:none;}
+input::placeholder { color:rgba(255,255,255,0.6);}
+button.calculate-btn { background:#ffffff; color:#2a5298; font-weight:600; border:none; border-radius:10px; padding:12px; font-size:16px; cursor:pointer; transition:all 0.3s ease; }
+button.calculate-btn:hover { background:#e0e0e0; }
+.age-box { display:none; margin-top:15px; display:flex; gap:10px; justify-content:space-between; }
+.age-item { flex:1; background:rgba(255,255,255,0.2); padding:15px 5px; border-radius:12px; opacity:0; transform:translateY(10px); transition:all 0.5s ease;}
+.age-item.show { opacity:1; transform:translateY(0);}
+.age-item h3 { font-size:20px; }
+.footer { margin-top:20px; font-size:13px; opacity:0.8; display:flex; flex-direction:column; align-items:center; gap:5px;}
+.footer img { width:30px; height:30px; border-radius:50%; }
+
+@keyframes pop { from{transform:scale(0.8); opacity:0;} to{transform:scale(1); opacity:1;} }
 </style>
 </head>
 
 <body>
-<div class="card">
-<h2>বয়স নির্ণায়ক</h2>
-<input type="date" id="dob">
-<button onclick="calculateAge()">বয়স নির্ণয় করুন</button>
+<div class="container">
+  <!-- Install Button on Top -->
+  <button id="installBtn" class="install-btn hide">Install AgeDekho App</button>
 
-<div class="age-box" id="ageBox">
-  <div class="age-item"><h3 id="years">0</h3><p>বছর</p></div>
-  <div class="age-item"><h3 id="months">0</h3><p>মাস</p></div>
-  <div class="age-item"><h3 id="days">0</h3><p>দিন</p></div>
-</div>
+  <!-- Main Card -->
+  <div class="card">
+    <h2>Boyosh Dekho</h2>
+    <p style="opacity:0.8; margin-bottom:10px;">সহজেই আপনার সঠিক বয়স জানুন</p>
+    <input type="date" id="dob" placeholder="আপনার জন্ম তারিখ নির্বাচন করুন">
+    <button class="calculate-btn" onclick="calculateAge()">বয়স নির্ণয় করুন</button>
 
-<button id="installBtn" class="hide">Install AgeDekho App</button>
+    <!-- Output Box -->
+    <div class="age-box" id="ageBox">
+      <div class="age-item"><h3 id="years">0</h3><p>বছর</p></div>
+      <div class="age-item"><h3 id="months">0</h3><p>মাস</p></div>
+      <div class="age-item"><h3 id="days">0</h3><p>দিন</p></div>
+    </div>
+  </div>
 
-<div class="footer">
-সহজেই আপনার সঠিক বয়স জানুন<br>
-Developed by H.I. Hasan
-</div>
+  <!-- Footer -->
+  <div class="footer">
+    <img src="icon-192.png" alt="H.I. Hasan">
+    Developed by H.I. Hasan
+  </div>
 </div>
 
 <script>
+// Install Button Prompt
 let deferredPrompt;
-
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
   document.getElementById('installBtn').classList.remove('hide');
 });
-
 document.getElementById('installBtn').addEventListener('click', async () => {
   document.getElementById('installBtn').classList.add('hide');
   if(deferredPrompt){
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     deferredPrompt = null;
-    if(outcome === 'accepted'){
-      alert("App সফলভাবে ইনস্টল হয়েছে!");
-    }
+    if(outcome === 'accepted'){ alert("App সফলভাবে ইনস্টল হয়েছে!"); }
   }
 });
 
+// Age Calculation
 function calculateAge(){
   const dobValue=document.getElementById("dob").value;
-  if(!dobValue){alert("অনুগ্রহ করে জন্ম তারিখ নির্বাচন করুন");return;}
+  if(!dobValue){alert("অনুগ্রহ করে জন্ম তারিখ নির্বাচন করুন"); return;}
   const dob=new Date(dobValue);
   const today=new Date();
   let years=today.getFullYear()-dob.getFullYear();
   let months=today.getMonth()-dob.getMonth();
   let days=today.getDate()-dob.getDate();
-  if(days<0){months--;const lastMonth=new Date(today.getFullYear(),today.getMonth(),0);days+=lastMonth.getDate();}
-  if(months<0){years--;months+=12;}
+  if(days<0){months--; const lastMonth=new Date(today.getFullYear(),today.getMonth(),0); days+=lastMonth.getDate();}
+  if(months<0){years--; months+=12;}
+
   document.getElementById("years").innerText=years;
   document.getElementById("months").innerText=months;
   document.getElementById("days").innerText=days;
-  document.getElementById("ageBox").style.display="flex";
+
+  // Animation show
+  const items = document.querySelectorAll('.age-item');
+  document.getElementById('ageBox').style.display="flex";
+  items.forEach((item, i)=>{
+    setTimeout(()=>{ item.classList.add('show'); }, i*150);
+  });
 }
 
+// Service Worker
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('/sw.js').then(reg=>{
     console.log("Service Worker Registered:", reg.scope);
