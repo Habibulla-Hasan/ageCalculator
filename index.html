@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বয়স নির্ণায়ক</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  padding:15px;
+}
+
+.card{
+  width:100%;
+  max-width:400px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(15px);
+  border-radius:20px;
+  padding:30px 25px;
+  text-align:center;
+  color:white;
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  animation:fadeIn 1s ease;
+}
+
+h2{
+  margin-bottom:20px;
+  font-weight:600;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  margin-bottom:15px;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  background:white;
+  color:#2a5298;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+.age-box{
+  display:none;
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  justify-content:space-between;
+}
+
+.age-item{
+  flex:1;
+  background:rgba(255,255,255,0.2);
+  padding:15px 5px;
+  border-radius:12px;
+  animation:pop 0.5s ease;
+}
+
+.age-item h3{
+  font-size:20px;
+}
+
+.footer{
+  margin-top:20px;
+  font-size:13px;
+  opacity:0.8;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes pop{
+  from{transform:scale(0.8); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>বয়স নির্ণায়ক</h2>
+
+  <input type="date" id="dob">
+  <button onclick="calculateAge()">বয়স নির্ণয় করুন</button>
+
+  <div class="age-box" id="ageBox">
+    <div class="age-item">
+      <h3 id="years">0</h3>
+      <p>বছর</p>
+    </div>
+    <div class="age-item">
+      <h3 id="months">0</h3>
+      <p>মাস</p>
+    </div>
+    <div class="age-item">
+      <h3 id="days">0</h3>
+      <p>দিন</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    Developed by H.I. Hasan
+  </div>
+</div>
+
+<script>
+function calculateAge(){
+  const dobValue=document.getElementById("dob").value;
+  if(!dobValue){
+    alert("অনুগ্রহ করে জন্ম তারিখ নির্বাচন করুন");
+    return;
+  }
+
+  const dob=new Date(dobValue);
+  const today=new Date();
+
+  let years=today.getFullYear()-dob.getFullYear();
+  let months=today.getMonth()-dob.getMonth();
+  let days=today.getDate()-dob.getDate();
+
+  if(days<0){
+    months--;
+    const lastMonth=new Date(today.getFullYear(),today.getMonth(),0);
+    days+=lastMonth.getDate();
+  }
+
+  if(months<0){
+    years--;
+    months+=12;
+  }
+
+  document.getElementById("years").innerText=years;
+  document.getElementById("months").innerText=months;
+  document.getElementById("days").innerText=days;
+
+  document.getElementById("ageBox").style.display="flex";
+}
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+</body>
+</html>
